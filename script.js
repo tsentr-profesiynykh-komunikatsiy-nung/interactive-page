@@ -29,7 +29,7 @@ function renderMainButtons() {
   infoWrap.appendChild(welcome);
   const desc = document.createElement('div');
   desc.className = 'desc-block';
-  desc.textContent = 'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut sunt incidunt dolorem inventore dignissimos voluptatibus modi, fugiat tempore omnis nulla quod cum iure necessitatibus recusandae ea culpa ullam quas repellendus.';
+  desc.textContent = 'Відкрийте для себе можливості професійного розвитку, стажування та працевлаштування разом з ІФНТУНГ. Досліджуйте факультети, кафедри, пропозиції практики та вакансії — і знаходьте шлях до успішної кар’єри!';
   infoWrap.appendChild(desc);
   mainContent.appendChild(infoWrap);
   // Add a wrapper for the main buttons
