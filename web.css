@@ -3,6 +3,9 @@ body {
     color: #000;
     margin: 0;
     font-family: 'Open Sans', Arial, sans-serif !important;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .navbar {
@@ -13,6 +16,7 @@ body {
     height: 120px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     padding-left: 40px;
+    position: relative;
 }
 
 .navbar-logo {
@@ -21,6 +25,35 @@ body {
     user-select: none;
     pointer-events: none;
     margin-left: 0;
+    flex-shrink: 0;
+}
+
+.navbar-title {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.3rem;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 700;
+    color: #000;
+    pointer-events: none;
+}
+
+@media (min-width: 1200px) {
+    .navbar-title {
+        font-size: 1.7rem;
+    }
+}
+@media (min-width: 1800px) {
+    .navbar-title {
+        font-size: 2.1rem;
+    }
+}
+@media (min-width: 2400px) {
+    .navbar-title {
+        font-size: 2.7rem;
+    }
 }
 
 .main-content {
@@ -30,16 +63,17 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    flex: 1 0 auto;
     min-height: calc(100vh - 120px);
     background: #fff;
     padding-top: 40px;
 }
 
 .main-content.home {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
 .main-btn {
@@ -151,6 +185,49 @@ h2 {
     text-align: center;
 }
 
+.welcome-block {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    text-align: center;
+    color: #000;
+    font-family: 'Open Sans', Arial, sans-serif;
+}
+
+.desc-block {
+    font-size: 1.5rem;
+    margin-bottom: 140px;
+    text-align: center;
+    color: #222;
+    font-family: 'Open Sans', Arial, sans-serif;
+    max-width: 900px;
+}
+
+.home-info-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.home-btn-wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    width: 100%;
+    margin-top: 0;
+}
+
+@media (max-width: 900px) {
+    .home-btn-wrap {
+        flex-direction: column;
+        gap: 24px;
+    }
+}
+
 @media (min-width: 1200px) {
     .main-content {
         min-height: 900px;
@@ -160,5 +237,117 @@ h2 {
         padding: 40px 120px;
         min-width: 400px;
         min-height: 140px;
+    }
+    .faculty-btn {
+        font-size: 2rem;
+        padding: 32px 64px;
+    }
+    .back-btn {
+        font-size: 2.8rem;
+        padding: 18px 36px;
+    }
+    h2 {
+        font-size: 3.5rem;
+    }
+    ul, .contact-block, .communication-text {
+        font-size: 2rem;
+    }
+    .welcome-block {
+        font-size: 2.8rem;
+    }
+    .desc-block {
+        font-size: 2rem;
+        max-width: 1200px;
+    }
+}
+
+@media (min-width: 1800px) {
+    .main-btn {
+        font-size: 4rem;
+        padding: 56px 180px;
+        min-width: 600px;
+        min-height: 180px;
+    }
+    .faculty-btn {
+        font-size: 2.7rem;
+        padding: 40px 90px;
+    }
+    .back-btn {
+        font-size: 3.5rem;
+        padding: 24px 48px;
+    }
+    h2 {
+        font-size: 4.5rem;
+    }
+    ul, .contact-block, .communication-text {
+        font-size: 2.7rem;
+    }
+    .welcome-block {
+        font-size: 3.5rem;
+    }
+    .desc-block {
+        font-size: 2.5rem;
+        max-width: 1600px;
+    }
+}
+
+@media (min-width: 2400px) {
+    .main-btn {
+        font-size: 5rem;
+        padding: 80px 240px;
+        min-width: 800px;
+        min-height: 240px;
+    }
+    .faculty-btn {
+        font-size: 3.5rem;
+        padding: 56px 120px;
+    }
+    .back-btn {
+        font-size: 4.2rem;
+        padding: 32px 64px;
+    }
+    h2 {
+        font-size: 6rem;
+    }
+    ul, .contact-block, .communication-text {
+        font-size: 3.5rem;
+    }
+    .welcome-block {
+        font-size: 4.5rem;
+    }
+    .desc-block {
+        font-size: 3.2rem;
+        max-width: 2000px;
+    }
+}
+
+.footer {
+    width: 100vw;
+    background: #353F47;
+    color: #fff;
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Open Sans', Arial, sans-serif;
+    padding: 18px 0 16px 0;
+    margin: 0;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    position: relative;
+    z-index: 20;
+}
+
+@media (min-width: 1200px) {
+    .footer {
+        font-size: 1.1rem;
+    }
+}
+@media (min-width: 1800px) {
+    .footer {
+        font-size: 1.3rem;
+    }
+}
+@media (min-width: 2400px) {
+    .footer {
+        font-size: 1.6rem;
     }
 }
