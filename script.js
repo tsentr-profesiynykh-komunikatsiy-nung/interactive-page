@@ -1,38 +1,13 @@
 // script.js
 
-// Fake data
-const faculties = [
-  'Факультет математики', 'Факультет фізики', 'Факультет хімії', 'Факультет біології',
-  'Факультет інформатики', 'Факультет геології', 'Факультет економіки', 'Факультет права',
-  'Факультет історії', 'Факультет філології', 'Факультет психології', 'Факультет мистецтв',
-  'Факультет журналістики', 'Факультет туризму', 'Факультет педагогіки', 'Факультет соціології',
-  'Факультет менеджменту', 'Факультет екології', 'Факультет архітектури', 'Факультет енергетики'
-];
-const departmentsByFaculty = {
-  'Факультет математики': ['Кафедра алгебри', 'Кафедра геометрії', 'Кафедра аналізу'],
-  'Факультет фізики': ['Кафедра теоретичної фізики', 'Кафедра експериментальної фізики'],
-  'Факультет хімії': ['Кафедра органічної хімії', 'Кафедра неорганічної хімії'],
-  'Факультет біології': ['Кафедра ботаніки', 'Кафедра зоології'],
-  'Факультет інформатики': ['Кафедра програмування', 'Кафедра комп’ютерних наук'],
-  'Факультет геології': ['Кафедра геології', 'Кафедра геофізики'],
-  'Факультет економіки': ['Кафедра економіки', 'Кафедра фінансів'],
-  'Факультет права': ['Кафедра цивільного права', 'Кафедра кримінального права'],
-  'Факультет історії': ['Кафедра історії України', 'Кафедра всесвітньої історії'],
-  'Факультет філології': ['Кафедра української мови', 'Кафедра літератури'],
-  'Факультет психології': ['Кафедра загальної психології', 'Кафедра практичної психології'],
-  'Факультет мистецтв': ['Кафедра музики', 'Кафедра образотворчого мистецтва'],
-  'Факультет журналістики': ['Кафедра друкованих ЗМІ', 'Кафедра телебачення'],
-  'Факультет туризму': ['Кафедра туризму', 'Кафедра готельної справи'],
-  'Факультет педагогіки': ['Кафедра педагогіки', 'Кафедра дошкільної освіти'],
-  'Факультет соціології': ['Кафедра соціології', 'Кафедра соціальної роботи'],
-  'Факультет менеджменту': ['Кафедра менеджменту', 'Кафедра логістики'],
-  'Факультет екології': ['Кафедра екології', 'Кафедра охорони природи'],
-  'Факультет архітектури': ['Кафедра архітектури', 'Кафедра містобудування'],
-  'Факультет енергетики': ['Кафедра енергетики', 'Кафедра електротехніки']
-};
-const items = [
-  'Пункт 1', 'Пункт 2', 'Пункт 3', 'Пункт 4', 'Пункт 5'
-];
+let data = null;
+let currentContext = { type: null, faculty: null, department: null };
+
+async function loadDataAndInit() {
+  const response = await fetch('data.json');
+  data = await response.json();
+  renderMainButtons();
+}
 
 const mainButtons = [
   { label: 'Практика', id: 'practice' },
@@ -70,16 +45,7 @@ function renderMainButtons() {
   mainContent.appendChild(btnWrap);
 }
 
-function handleMainButton(id) {
-  mainContent.classList.remove('home');
-  if (id === 'practice' || id === 'employment') {
-    renderFaculties(id);
-  } else if (id === 'communication') {
-    renderCommunication();
-  }
-}
-
-function renderFaculties(context) {
+function renderFaculties(type) {
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -87,17 +53,20 @@ function renderFaculties(context) {
   mainContent.appendChild(header);
   const wrap = document.createElement('div');
   wrap.className = 'faculty-wrap';
-  faculties.forEach((name, i) => {
+  data.faculties.forEach(faculty => {
     const btn = document.createElement('button');
     btn.className = 'faculty-btn';
-    btn.textContent = name;
-    btn.onclick = () => renderDepartments(context, name);
+    btn.textContent = faculty.name;
+    btn.onclick = () => {
+      currentContext = { type, faculty: faculty.name, department: null };
+      renderDepartments(type, faculty.name);
+    };
     wrap.appendChild(btn);
   });
   mainContent.appendChild(wrap);
 }
 
-function renderDepartments(context, facultyName) {
+function renderDepartments(type, facultyName) {
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -105,27 +74,36 @@ function renderDepartments(context, facultyName) {
   mainContent.appendChild(header);
   const wrap = document.createElement('div');
   wrap.className = 'faculty-wrap';
-  const departments = departmentsByFaculty[facultyName] || [];
-  departments.forEach((name, i) => {
+  const faculty = data.faculties.find(f => f.name === facultyName);
+  if (!faculty) return;
+  faculty.departments.forEach(dept => {
     const btn = document.createElement('button');
     btn.className = 'faculty-btn';
-    btn.textContent = name;
-    btn.onclick = () => renderItems(context);
+    btn.textContent = dept.name;
+    btn.onclick = () => {
+      currentContext = { type, faculty: facultyName, department: dept.name };
+      renderItems(type, facultyName, dept.name);
+    };
     wrap.appendChild(btn);
   });
   mainContent.appendChild(wrap);
 }
 
-function renderItems(context) {
+function renderItems(type, facultyName, departmentName) {
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
   header.textContent = 'Список';
   mainContent.appendChild(header);
+  const faculty = data.faculties.find(f => f.name === facultyName);
+  if (!faculty) return;
+  const dept = faculty.departments.find(d => d.name === departmentName);
+  if (!dept) return;
+  const items = dept[type] || [];
   const ul = document.createElement('ul');
   items.forEach(item => {
     const li = document.createElement('li');
-    li.textContent = item;
+    li.textContent = `${item.company} — ${item.position}`;
     ul.appendChild(li);
   });
   mainContent.appendChild(ul);
@@ -158,5 +136,15 @@ function addBackButton() {
   }
 }
 
+function handleMainButton(id) {
+  mainContent.classList.remove('home');
+  if (id === 'practice' || id === 'employment') {
+    currentContext = { type: id === 'practice' ? 'практика' : 'працевлаштування', faculty: null, department: null };
+    renderFaculties(currentContext.type);
+  } else if (id === 'communication') {
+    renderCommunication();
+  }
+}
+
 // Initial render
-renderMainButtons();
+loadDataAndInit();
