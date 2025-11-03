@@ -156,6 +156,7 @@ body {
 
 .contact-block {
     margin-top: 40px;
+    margin-bottom: 100px;
     font-size: 1.3rem;
     color: #333;
     font-family: 'Open Sans', Arial, sans-serif;
@@ -164,6 +165,8 @@ body {
 .communication-text {
     font-size: 1.5rem;
     margin-top: 32px;
+    margin-left: 10%;
+    margin-right: 10%;
     color: #222;
     font-family: 'Open Sans', Arial, sans-serif;
 }
@@ -350,4 +353,103 @@ h2 {
     .footer {
         font-size: 1.6rem;
     }
+}
+
+.fancy-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 32px 0;
+  padding: 0;
+}
+
+.fancy-list-item {
+  min-width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 32px 48px;
+  font-size: 2.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  margin-bottom: 30px;
+  transition: box-shadow 0.2s, border 0.2s, background 0.2s;
+}
+
+.fancy-list-item:hover, .fancy-list-item:focus {
+  border: 2px solid #F1B090;
+  background: #f5ded1;
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.12);
+}
+
+.fancy-list-item.practice {
+  justify-content: center;
+}
+
+.fancy-list-item.employment {
+  justify-content: space-between;
+}
+
+.fancy-list-company {
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 0 #fff, 0 2px 4px rgba(0,0,0,0.04);
+  font-size: 2.3rem;
+}
+
+.fancy-list-position {
+  font-style: italic;
+  color: #444;
+  font-size: 2rem;
+}
+
+.vacancy-contact-block {
+  margin-top: 80px;
+  margin-bottom: 120px;
+  text-align: center;
+}
+
+.vacancy-info-text {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 48px;
+  line-height: 1.2;
+}
+
+.vacancy-email,
+.vacancy-phone {
+  font-size: 2.5rem;
+  margin: 24px 0;
+  color: #333;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.vacancy-email a,
+.vacancy-phone a {
+  color: #F1B090;
+  text-decoration: underline;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+@media (min-width: 1200px) {
+  .fancy-list-item { font-size: 2.8rem; padding: 48px 80px; }
+  .fancy-list-company { font-size: 2.9rem; }
+  .fancy-list-position { font-size: 2.5rem; }
+}
+@media (min-width: 1800px) {
+  .fancy-list-item { font-size: 3.7rem; padding: 64px 120px; }
+  .fancy-list-company { font-size: 3.8rem; }
+  .fancy-list-position { font-size: 3.2rem; }
+}
+@media (min-width: 2400px) {
+  .fancy-list-item { font-size: 5rem; padding: 96px 180px; }
+  .fancy-list-company { font-size: 5.2rem; }
+  .fancy-list-position { font-size: 4.5rem; }
 }

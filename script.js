@@ -93,24 +93,75 @@ function renderItems(type, facultyName, departmentName) {
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
-  header.textContent = 'Список';
+  if (type === 'employment') {
+    header.textContent = 'Список вакансій';
+  } else if (type === 'practice') {
+    header.textContent = 'Список компаній для практики';
+  } else {
+    header.textContent = 'Список';
+  }
   mainContent.appendChild(header);
   const faculty = data.faculties.find(f => f.name === facultyName);
   if (!faculty) return;
   const dept = faculty.departments.find(d => d.name === departmentName);
   if (!dept) return;
   const items = dept[type] || [];
-  const ul = document.createElement('ul');
-  items.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = `${item.company} — ${item.position}`;
-    ul.appendChild(li);
-  });
-  mainContent.appendChild(ul);
-  const contact = document.createElement('div');
-  contact.className = 'contact-block';
-  contact.textContent = 'Contact something@nung.edu.ua for more information.';
-  mainContent.appendChild(contact);
+  const listWrap = document.createElement('div');
+  listWrap.className = 'fancy-list';
+  if (type === 'employment') {
+    items.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'fancy-list-item employment clickable';
+      card.tabIndex = 0;
+      card.innerHTML = `<span style="margin-right: 10px;" class="fancy-list-company">${item.company}</span><span class="fancy-list-position">${item.position}</span>`;
+      card.onclick = () => {
+        renderVacancyDetails('employment', facultyName, departmentName, idx);
+      };
+      listWrap.appendChild(card);
+    });
+  } else if (type === 'practice') {
+    items.forEach((company, idx) => {
+      const card = document.createElement('div');
+      card.className = 'fancy-list-item practice clickable';
+      card.tabIndex = 0;
+      card.innerHTML = `<span class="fancy-list-company">${company}</span>`;
+      card.onclick = () => {
+        renderVacancyDetails('practice', facultyName, departmentName, idx);
+      };
+      listWrap.appendChild(card);
+    });
+  }
+  mainContent.appendChild(listWrap);
+}
+
+function renderVacancyDetails(type, facultyName, departmentName, idx) {
+  mainContent.innerHTML = '';
+  addBackButton();
+  const faculty = data.faculties.find(f => f.name === facultyName);
+  if (!faculty) return;
+  const dept = faculty.departments.find(d => d.name === departmentName);
+  if (!dept) return;
+  const contactBlock = document.createElement('div');
+  contactBlock.className = 'vacancy-contact-block';
+  let infoText = '';
+  if (type === 'employment') {
+    infoText = 'Для детальнішої інформації щодо працевлаштування зв\'яжіться з нами:';
+  } else {
+    infoText = 'Для детальнішої інформації щодо практики зв\'яжіться з нами:';
+  }
+  const info = document.createElement('div');
+  info.className = 'vacancy-info-text';
+  info.textContent = infoText;
+  contactBlock.appendChild(info);
+  const email = document.createElement('div');
+  email.className = 'vacancy-email';
+  email.innerHTML = `<b>Email:</b> <a href="mailto:${dept.email}">${dept.email}</a>`;
+  contactBlock.appendChild(email);
+  const phone = document.createElement('div');
+  phone.className = 'vacancy-phone';
+  phone.innerHTML = `<b>Телефон:</b> <a href="tel:${dept.phone}">${dept.phone}</a>`;
+  contactBlock.appendChild(phone);
+  mainContent.appendChild(contactBlock);
 }
 
 function renderCommunication() {
@@ -119,9 +170,22 @@ function renderCommunication() {
   const header = document.createElement('h2');
   header.textContent = 'Комунікація';
   mainContent.appendChild(header);
+
   const text = document.createElement('div');
   text.className = 'communication-text';
-  text.textContent = 'Тут буде інформація про комунікацію.';
+  text.innerHTML = `
+    Якщо у вас є відгуки, питання, пропозиції щодо співпраці або ви бажаєте зв'язатися з нами для комунікації — напишіть або зателефонуйте нам!<br><br>
+    <div class="communication-contact-block">
+      <div class="communication-contact-label"><b>Номер(и) телефону:</b></div>
+      <div class="communication-contact-value"><a href="tel:+380507807525">+380507807525</a></div>
+      <div class="communication-contact-label"><b>Електронна пошта:</b></div>
+      <div class="communication-contact-value"><a href="mailto:cpk@nung.edu.ua">cpk@nung.edu.ua</a></div>
+      <div class="communication-contact-label"><b>Адреса:</b></div>
+      <div class="communication-contact-value">вул. Карпатська,15, м. Івано-Франківськ, 76019</div>
+      <div class="communication-contact-label"><b>Веб-сайт:</b></div>
+      <div class="communication-contact-value"><a href="https://nung.edu.ua/department/tsentr-profesiynykh-komunikatsi" target="_blank">https://nung.edu.ua/department/tsentr-profesiynykh-комунікацій</a></div>
+    </div>
+  `;
   mainContent.appendChild(text);
 }
 
@@ -139,7 +203,7 @@ function addBackButton() {
 function handleMainButton(id) {
   mainContent.classList.remove('home');
   if (id === 'practice' || id === 'employment') {
-    currentContext = { type: id === 'practice' ? 'практика' : 'працевлаштування', faculty: null, department: null };
+    currentContext = { type: id, faculty: null, department: null };
     renderFaculties(currentContext.type);
   } else if (id === 'communication') {
     renderCommunication();
