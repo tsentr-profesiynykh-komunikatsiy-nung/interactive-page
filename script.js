@@ -1,4 +1,5 @@
 // script.js
+console.log('Script loaded. Version 0.1');
 
 let data = null;
 let currentContext = { type: null, faculty: null, department: null };
