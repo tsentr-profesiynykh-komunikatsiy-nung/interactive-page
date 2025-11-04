@@ -5,7 +5,7 @@ let data = null;
 let currentContext = { type: null, faculty: null, department: null };
 
 async function loadDataAndInit() {
-  const response = await fetch('data.json');
+  const response = await fetch('static/data.json');
   data = await response.json();
   renderMainButtons();
 }
@@ -83,14 +83,41 @@ function renderDepartments(type, facultyName) {
     btn.textContent = dept.name;
     btn.onclick = () => {
       currentContext = { type, faculty: facultyName, department: dept.name };
-      renderItems(type, facultyName, dept.name);
+      renderSpecialties(type, facultyName, dept.name);
     };
     wrap.appendChild(btn);
   });
   mainContent.appendChild(wrap);
 }
 
-function renderItems(type, facultyName, departmentName) {
+// Specialty selection removed; now specialty is part of department
+
+function renderSpecialties(type, facultyName, departmentName) {
+  mainContent.innerHTML = '';
+  addBackButton();
+  const header = document.createElement('h2');
+  header.textContent = 'Спеціальності';
+  mainContent.appendChild(header);
+  const faculty = data.faculties.find(f => f.name === facultyName);
+  if (!faculty) return;
+  const dept = faculty.departments.find(d => d.name === departmentName);
+  if (!dept) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'faculty-wrap';
+  dept.specialties.forEach(spec => {
+    const btn = document.createElement('button');
+    btn.className = 'faculty-btn';
+    btn.innerHTML = `<div>${spec.name}</div>`;
+    btn.onclick = () => {
+      currentContext = { type, faculty: facultyName, department: departmentName, specialty: spec.name };
+      renderItems(type, facultyName, departmentName, spec.name);
+    };
+    wrap.appendChild(btn);
+  });
+  mainContent.appendChild(wrap);
+}
+
+function renderItems(type, facultyName, departmentName, specialtyName) {
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -106,7 +133,9 @@ function renderItems(type, facultyName, departmentName) {
   if (!faculty) return;
   const dept = faculty.departments.find(d => d.name === departmentName);
   if (!dept) return;
-  const items = dept[type] || [];
+  const spec = dept.specialties.find(s => s.name === specialtyName);
+  if (!spec) return;
+  const items = spec[type] || [];
   const listWrap = document.createElement('div');
   listWrap.className = 'fancy-list';
   if (type === 'employment') {
@@ -114,20 +143,31 @@ function renderItems(type, facultyName, departmentName) {
       const card = document.createElement('div');
       card.className = 'fancy-list-item employment clickable';
       card.tabIndex = 0;
-      card.innerHTML = `<span style="margin-right: 10px;" class="fancy-list-company">${item.company}</span><span class="fancy-list-position">${item.position}</span>`;
+      card.innerHTML = `
+        <div class="fancy-list-company">${item.company}</div>
+        <div class="fancy-list-position">${item.position}</div>
+        <div class="fancy-list-address"><b>Адреса:</b> ${item.address || ''}</div>
+        <div class="fancy-list-info"><b>Додаткова інформація:</b> ${item.info || ''}</div>
+      `;
       card.onclick = () => {
-        renderVacancyDetails('employment', facultyName, departmentName, idx);
+        renderVacancyDetails('employment', facultyName, departmentName, specialtyName, idx);
       };
       listWrap.appendChild(card);
     });
   } else if (type === 'practice') {
-    items.forEach((company, idx) => {
+    items.forEach((item, idx) => {
       const card = document.createElement('div');
       card.className = 'fancy-list-item practice clickable';
       card.tabIndex = 0;
-      card.innerHTML = `<span class="fancy-list-company">${company}</span>`;
+      card.innerHTML = `
+        <div class="fancy-list-company">${item.company}</div>
+        <div class="fancy-list-position">${item.position ? item.position : ''}</div>
+        <div class="fancy-list-address"><b>Адреса:</b> ${item.address || ''}</div>
+        <div class="fancy-list-info"><b>Додаткова інформація:</b> ${item.info || ''}</div>
+        <div class="fancy-list-places">${item.places ? item.places : ''}</div>
+      `;
       card.onclick = () => {
-        renderVacancyDetails('practice', facultyName, departmentName, idx);
+        renderVacancyDetails('practice', facultyName, departmentName, specialtyName, idx);
       };
       listWrap.appendChild(card);
     });
@@ -135,13 +175,15 @@ function renderItems(type, facultyName, departmentName) {
   mainContent.appendChild(listWrap);
 }
 
-function renderVacancyDetails(type, facultyName, departmentName, idx) {
+function renderVacancyDetails(type, facultyName, departmentName, specialtyName, idx) {
   mainContent.innerHTML = '';
   addBackButton();
   const faculty = data.faculties.find(f => f.name === facultyName);
   if (!faculty) return;
   const dept = faculty.departments.find(d => d.name === departmentName);
   if (!dept) return;
+  const spec = dept.specialties.find(s => s.name === specialtyName);
+  if (!spec) return;
   const contactBlock = document.createElement('div');
   contactBlock.className = 'vacancy-contact-block';
   let infoText = '';
