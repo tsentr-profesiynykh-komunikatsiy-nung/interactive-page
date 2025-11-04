@@ -1,12 +1,14 @@
 // script.js
-console.log('Script loaded. Version 0.1');
+console.log('Script loaded. Version 0.2');
 
 let data = null;
 let currentContext = { type: null, faculty: null, department: null };
 
 async function loadDataAndInit() {
+  console.log('[loadDataAndInit] Fetching static/data.json...');
   const response = await fetch('static/data.json');
   data = await response.json();
+  console.log('[loadDataAndInit] Data loaded:', data);
   renderMainButtons();
 }
 
@@ -19,6 +21,7 @@ const mainButtons = [
 const mainContent = document.querySelector('.main-content');
 
 function renderMainButtons() {
+  console.log('[renderMainButtons] Rendering main buttons');
   mainContent.classList.add('home');
   mainContent.innerHTML = '';
   // Add a wrapper for welcome and desc
@@ -47,6 +50,7 @@ function renderMainButtons() {
 }
 
 function renderFaculties(type) {
+  console.log('[renderFaculties] type:', type);
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -68,6 +72,7 @@ function renderFaculties(type) {
 }
 
 function renderDepartments(type, facultyName) {
+  console.log('[renderDepartments] type:', type, 'faculty:', facultyName);
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -93,6 +98,7 @@ function renderDepartments(type, facultyName) {
 // Specialty selection removed; now specialty is part of department
 
 function renderSpecialties(type, facultyName, departmentName) {
+  console.log('[renderSpecialties] type:', type, 'faculty:', facultyName, 'department:', departmentName);
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -118,6 +124,7 @@ function renderSpecialties(type, facultyName, departmentName) {
 }
 
 function renderItems(type, facultyName, departmentName, specialtyName) {
+  console.log('[renderItems] type:', type, 'faculty:', facultyName, 'department:', departmentName, 'specialty:', specialtyName);
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -176,6 +183,7 @@ function renderItems(type, facultyName, departmentName, specialtyName) {
 }
 
 function renderVacancyDetails(type, facultyName, departmentName, specialtyName, idx) {
+  console.log('[renderVacancyDetails] type:', type, 'faculty:', facultyName, 'department:', departmentName, 'specialty:', specialtyName, 'idx:', idx);
   mainContent.innerHTML = '';
   addBackButton();
   const faculty = data.faculties.find(f => f.name === facultyName);
@@ -208,6 +216,7 @@ function renderVacancyDetails(type, facultyName, departmentName, specialtyName, 
 }
 
 function renderCommunication() {
+  console.log('[renderCommunication] Rendering communication section');
   mainContent.innerHTML = '';
   addBackButton();
   const header = document.createElement('h2');
@@ -235,6 +244,7 @@ function renderCommunication() {
 function addBackButton() {
   // Only add back button if not on home page
   if (!mainContent.classList.contains('home')) {
+    console.log('[addBackButton] Adding back button');
     const back = document.createElement('button');
     back.className = 'back-btn';
     back.innerHTML = '← Назад';
@@ -244,6 +254,7 @@ function addBackButton() {
 }
 
 function handleMainButton(id) {
+  console.log('[handleMainButton] id:', id);
   mainContent.classList.remove('home');
   if (id === 'practice' || id === 'employment') {
     currentContext = { type: id, faculty: null, department: null };
