@@ -206,11 +206,11 @@ function renderVacancyDetails(type, facultyName, departmentName, specialtyName, 
   contactBlock.appendChild(info);
   const email = document.createElement('div');
   email.className = 'vacancy-email';
-  email.innerHTML = `<b>Email:</b> <a href="mailto:${dept.email}">${dept.email}</a>`;
+  email.innerHTML = `<b>Email:</b> <a href="mailto:${dept.email || 'admin@nung.edu.ua'}">${dept.email || 'admin@nung.edu.ua'}</a>`;
   contactBlock.appendChild(email);
   const phone = document.createElement('div');
   phone.className = 'vacancy-phone';
-  phone.innerHTML = `<b>Телефон:</b> <a href="tel:${dept.phone}">${dept.phone}</a>`;
+  phone.innerHTML = `<b>Телефон:</b> <a href="tel:${dept.phone || '+380 (342) 54-72-66'}">${dept.phone || '+380 (342) 54-72-66'}</a>`;
   contactBlock.appendChild(phone);
   mainContent.appendChild(contactBlock);
 }
