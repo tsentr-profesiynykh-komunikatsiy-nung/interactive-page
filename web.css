@@ -98,7 +98,6 @@ body {
 }
 
 .navbar {
-    width: 100vw;
     background: #F1B090;
     display: flex;
     align-items: center;
@@ -353,6 +352,45 @@ body {
     margin-right: 10%;
     color: #222;
     font-family: 'Open Sans', Arial, sans-serif;
+}
+
+/* Polished, non-invasive styling for the simple Communication block */
+.communication-text {
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 28px 40px;
+    background: linear-gradient(180deg, #fff, #fff);
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(7,12,20,0.04);
+    border: 1px solid rgba(20,30,60,0.04);
+    line-height: 1.5;
+}
+
+.communication-contact-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 28px;
+    margin-top: 18px;
+    align-items: start;
+}
+
+.communication-contact-label {
+    font-weight: 700;
+    color: #444;
+}
+
+.communication-contact-value a,
+.communication-contact-value {
+    color: #1a6fb3;
+    font-weight: 700;
+    text-decoration: none;
+}
+.communication-contact-value a:hover { text-decoration: underline; }
+
+@media (max-width: 900px) {
+  .communication-contact-block { grid-template-columns: 1fr; }
+  .communication-text { padding: 20px; }
 }
 
 ul {

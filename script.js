@@ -234,8 +234,6 @@ function renderCommunication() {
       <div class="communication-contact-value"><a href="mailto:cpk@nung.edu.ua">cpk@nung.edu.ua</a></div>
       <div class="communication-contact-label"><b>Адреса:</b></div>
       <div class="communication-contact-value">вул. Карпатська,15, м. Івано-Франківськ, 76019</div>
-      <div class="communication-contact-label"><b>Веб-сайт:</b></div>
-      <div class="communication-contact-value"><a href="https://nung.edu.ua/department/tsentr-profesiynykh-komunikatsi" target="_blank">https://nung.edu.ua/department/tsentr-profesiynykh-komunikatsi</a></div>
     </div>
   `;
   mainContent.appendChild(text);
