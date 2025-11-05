@@ -164,6 +164,101 @@ body {
     align-items: center;
     justify-content: center;
 }
+.main-content.home {
+    position: relative; /* enable pseudo elements */
+    overflow: hidden;
+}
+
+.main-content.home::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    background: linear-gradient(135deg, rgba(241,176,144,0.14) 0%, rgba(230,241,255,0.06) 50%, rgba(25,118,210,0.06) 100%);
+    backdrop-filter: blur(0px);
+}
+
+.main-content.home::after {
+    /* large blurred animated gradient to give a soft moving backdrop */
+    content: '';
+    position: absolute;
+    left: -10vmax;
+    top: -20vmax;
+    width: 90vmax;
+    height: 90vmax;
+    z-index: -4;
+    background: radial-gradient(circle at 25% 30%, rgba(241,176,144,0.45), transparent 20%), radial-gradient(circle at 75% 70%, rgba(25,118,210,0.25), transparent 25%);
+    filter: blur(80px) saturate(110%);
+    transform: scale(1);
+    animation: kioskBgFloat 22s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes kioskBgFloat {
+    0% { transform: translate3d(0,0,0) scale(1); }
+    50% { transform: translate3d(4vmax, -3vmax, 0) scale(1.02) ; }
+    100% { transform: translate3d(-2vmax, 3vmax, 0) scale(1); }
+}
+
+/* Floating accent blob near the buttons */
+.home-btn-wrap::before {
+    content: '';
+    position: absolute;
+    width: 34vmin;
+    height: 34vmin;
+    right: 6vmin;
+    top: 8vmin;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(241,176,144,0.9), rgba(241,176,144,0.35) 40%, transparent 60%), radial-gradient(circle at 65% 65%, rgba(25,118,210,0.65), rgba(25,118,210,0.18) 40%, transparent 60%);
+    filter: blur(28px) saturate(120%);
+    z-index: -2;
+    animation: blobFloat 12s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes blobFloat {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); }
+    50% { transform: translateY(-2vmin) translateX(2vmin) rotate(6deg); }
+    100% { transform: translateY(0) translateX(0) rotate(0deg); }
+}
+
+/* Make main buttons feel like tactile cards */
+.main-btn {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(241,176,144,0.98), rgba(241,160,120,0.98));
+    box-shadow: 0 10px 40px rgba(20,30,60,0.12), 0 6px 18px rgba(241,176,144,0.12);
+    transition: transform 220ms cubic-bezier(.2,.9,.3,1), box-shadow 220ms, filter 220ms;
+    will-change: transform;
+}
+
+.main-btn:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(20,30,60,0.16), 0 10px 26px rgba(241,176,144,0.14);
+}
+
+.main-btn:active {
+    transform: translateY(-2px) scale(0.995);
+    box-shadow: 0 8px 26px rgba(20,30,60,0.10);
+}
+
+/* keyboard focus for kiosk accessibility */
+.main-btn:focus-visible {
+    outline: 4px solid rgba(25,118,210,0.14);
+    outline-offset: 6px;
+    box-shadow: 0 18px 48px rgba(20,30,60,0.18), 0 8px 26px rgba(241,176,144,0.16);
+}
+
+.home-info-wrap { z-index: 1; }
+
+/* Slight animation for welcome text to draw attention */
+.welcome-block {
+    animation: subtlePop 1200ms ease-out 1;
+}
+@keyframes subtlePop {
+    0% { transform: translateY(6px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
 
 .main-btn {
     background: #F1B090;
@@ -278,12 +373,17 @@ h2 {
 }
 
 .welcome-block {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 24px;
-    text-align: center;
-    color: #000;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 2.2rem; 
+    font-weight: 700; 
+    margin-bottom: 24px; 
+    text-align: center; 
+    color: #000; 
+    font-family: 'Open Sans', Arial, sans-serif; 
+    position: relative; 
+    display: inline-block; 
+    z-index: 2; 
+    /* entrance + subtle looping glow */ 
+    animation: welcomeEntrance 1100ms cubic-bezier(.2,.9,.3,1) both, welcomeGlow 3.6s ease-in-out 1.2s infinite; 
 }
 
 .desc-block {
@@ -295,6 +395,54 @@ h2 {
     max-width: 900px;
 }
 
+/* Shine sweep across the heading to draw attention (runs once after entrance) */
+.welcome-block::after {
+    content: '';
+    position: absolute;
+    left: -30%;
+    top: 0;
+    width: 160%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.65) 48%, rgba(255,255,255,0.12) 60%, transparent 100%);
+    transform: translateX(-100%) skewX(-12deg);
+    pointer-events: none;
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: welcomeShine 1.2s ease-out 420ms 1 both;
+}
+
+/* entrance animation for the heading */
+@keyframes welcomeEntrance {
+    0% { transform: translateY(18px) scale(0.995); opacity: 0; }
+    60% { transform: translateY(-4px) scale(1.002); opacity: 1; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* single-run shine sweep */
+@keyframes welcomeShine {
+    0% { transform: translateX(-100%) skewX(-12deg); opacity: 0; }
+    30% { opacity: 0.9; }
+    100% { transform: translateX(100%) skewX(-12deg); opacity: 0; }
+}
+
+/* subtle pulsing text-shadow to give "life" without being distracting */
+@keyframes welcomeGlow {
+    0% { text-shadow: 0 0 0 rgba(241,176,144,0.00); }
+    50% { text-shadow: 0 6px 26px rgba(241,176,144,0.06); }
+    100% { text-shadow: 0 0 0 rgba(241,176,144,0.00); }
+}
+
+/* Description text: delayed, softer entrance */
+.desc-block {
+    animation: descEntrance 1100ms cubic-bezier(.22,.9,.28,1) 420ms both;
+    max-width: 1000px;
+    opacity: 0; /* will be set to 1 by animation */
+}
+
+@keyframes descEntrance {
+    0% { transform: translateY(12px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
 .home-info-wrap {
     display: flex;
     flex-direction: column;
