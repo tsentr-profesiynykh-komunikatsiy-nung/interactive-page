@@ -614,6 +614,20 @@ h2 {
     z-index: 20;
 }
 
+/* Positioned tsentr logo (decorative): placed below the navbar at a fixed spot
+     relative to the viewport so it stays at top:130px; right:130px as requested. */
+.tsentr-logo {
+    position: absolute; /* positioned inside the navbar */
+    top: 50%;
+    right: 40px;
+    transform: translateY(-50%);
+    height: 80px;
+    width: auto;
+    user-select: none;
+    pointer-events: none;
+    z-index: 6;/* decorative only */
+}
+
 @media (min-width: 1200px) {
     .footer {
         font-size: 1.1rem;
