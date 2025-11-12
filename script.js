@@ -43,10 +43,16 @@ function renderMainButtons() {
     const button = document.createElement('button');
     button.className = 'main-btn';
     button.textContent = btn.label;
-    button.onclick = () => handleMainButton(btn.id);
+    button.onclick = (e) => {
+      createRippleEffect(e);
+      setTimeout(() => handleMainButton(btn.id), 150);
+    };
     btnWrap.appendChild(button);
   });
   mainContent.appendChild(btnWrap);
+  
+  // Create ambient particles for visual interest
+  createAmbientParticles();
 }
 
 function renderFaculties(type) {
@@ -86,9 +92,10 @@ function renderDepartments(type, facultyName) {
     const btn = document.createElement('button');
     btn.className = 'faculty-btn';
     btn.textContent = dept.name;
-    btn.onclick = () => {
+    btn.onclick = (e) => {
+      createRippleEffect(e);
       currentContext = { type, faculty: facultyName, department: dept.name };
-      renderSpecialties(type, facultyName, dept.name);
+      setTimeout(() => renderSpecialties(type, facultyName, dept.name), 150);
     };
     wrap.appendChild(btn);
   });
@@ -228,7 +235,7 @@ function renderCommunication() {
   text.innerHTML = `
     Якщо у вас є відгуки, питання, пропозиції щодо співпраці або ви бажаєте зв'язатися з нами для комунікації — напишіть або зателефонуйте нам!<br><br>
     <div class="communication-contact-block">
-      <div class="communication-contact-label"><b>Номер(и) телефону:</b></div>
+      <div class="communication-contact-label"><b>Номер телефону:</b></div>
       <div class="communication-contact-value"><a href="tel:+380507807525">+380507807525</a></div>
       <div class="communication-contact-label"><b>Електронна пошта:</b></div>
       <div class="communication-contact-value"><a href="mailto:cpk@nung.edu.ua">cpk@nung.edu.ua</a></div>
@@ -246,7 +253,10 @@ function addBackButton() {
     const back = document.createElement('button');
     back.className = 'back-btn';
     back.innerHTML = '← Назад';
-    back.onclick = renderMainButtons;
+    back.onclick = (e) => {
+      createRippleEffect(e);
+      setTimeout(() => renderMainButtons(), 150);
+    };
     mainContent.appendChild(back);
   }
 }
@@ -260,6 +270,45 @@ function handleMainButton(id) {
   } else if (id === 'communication') {
     renderCommunication();
   }
+}
+
+// Particle system for ambient visual effects
+function createAmbientParticles() {
+  const particleContainer = document.createElement('div');
+  particleContainer.className = 'particle-container';
+  mainContent.appendChild(particleContainer);
+  
+  for (let i = 0; i < 15; i++) {
+    setTimeout(() => {
+      const particle = document.createElement('div');
+      particle.className = 'ambient-particle';
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 20 + 's';
+      particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+      particleContainer.appendChild(particle);
+    }, i * 200);
+  }
+}
+
+// Ripple effect for tactile feedback
+function createRippleEffect(event) {
+  const button = event.currentTarget;
+  const circle = document.createElement('span');
+  const diameter = Math.max(button.clientHeight, button.clientWidth);
+  const radius = diameter / 2;
+  
+  const rect = button.getBoundingClientRect();
+  circle.style.width = circle.style.height = diameter + 'px';
+  circle.style.left = (event.clientX - rect.left - radius) + 'px';
+  circle.style.top = (event.clientY - rect.top - radius) + 'px';
+  circle.classList.add('ripple');
+  
+  const existingRipple = button.querySelector('.ripple');
+  if (existingRipple) {
+    existingRipple.remove();
+  }
+  
+  button.appendChild(circle);
 }
 
 // Initial render
