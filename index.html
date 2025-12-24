@@ -25,6 +25,12 @@
 </footer>
 
 <!-- Optional: External JS -->
+ <!-- put this at the top of admin/index.html, before any netlify/decap scripts -->
+<script>
+  // override Netlify Identity site id used by the admin page
+  window.netlifyIdentity = window.netlifyIdentity || {};
+  window.netlifyIdentity.site_id = '89ce5d23-0f6c-4962-9998-6c7d16962a31';
+</script>
 <script src="script.js"></script>
 </body>
 </html>
