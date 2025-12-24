@@ -1,0 +1,115 @@
+backend:
+  name: github
+  repo: tsentr-profesiynykh-komunikatsiy-nung/interactive-page
+  branch: main
+  auth_type: implicit
+
+publish_mode: simple
+
+media_folder: "static/uploads"
+public_folder: "/static/uploads"
+
+locale: "uk"
+
+collections:
+  - name: "site_data"
+    label: "Дані сайту"
+    files:
+      - name: "main_data"
+        label: "Факультети, кафедри, спеціальності"
+        file: "static/data.json"
+        format: "json"
+        editor:
+          preview: false
+        fields:
+          - label: "Факультети"
+            name: "faculties"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - label: "Назва факультету"
+                name: "name"
+                widget: "string"
+                required: false
+
+              - label: "Кафедри"
+                name: "departments"
+                widget: "list"
+                summary: "{{fields.name}}"
+                fields:
+                  - label: "Назва кафедри"
+                    name: "name"
+                    widget: "string"
+                    required: false
+
+                  - label: "Email кафедри"
+                    name: "email"
+                    widget: "string"
+                    required: false
+
+                  - label: "Телефон кафедри"
+                    name: "phone"
+                    widget: "string"
+                    required: false
+
+                  - label: "Спеціальності"
+                    name: "specialties"
+                    widget: "list"
+                    summary: "{{fields.name}}"
+                    fields:
+                      - label: "Назва спеціальності"
+                        name: "name"
+                        widget: "string"
+                        required: false
+
+                      - label: "Працевлаштування"
+                        name: "employment"
+                        widget: "list"
+                        required: false
+                        summary: "{{fields.company}} — {{fields.position}}"
+                        fields:
+                          - label: "Компанія"
+                            name: "company"
+                            widget: "string"
+                            required: false
+
+                          - label: "Посада"
+                            name: "position"
+                            widget: "string"
+                            required: false
+
+                          - label: "Адреса"
+                            name: "address"
+                            widget: "string"
+                            required: false
+
+                          - label: "Додаткова інформація"
+                            name: "info"
+                            widget: "text"
+                            required: false
+
+                      - label: "Практика"
+                        name: "practice"
+                        widget: "list"
+                        required: false
+                        summary: "{{fields.company}}"
+                        fields:
+                          - label: "Компанія"
+                            name: "company"
+                            widget: "string"
+                            required: false
+
+                          - label: "Адреса"
+                            name: "address"
+                            widget: "string"
+                            required: false
+
+                          - label: "Додаткова інформація"
+                            name: "info"
+                            widget: "text"
+                            required: false
+
+                          - label: "Кількість місць"
+                            name: "places"
+                            widget: "string"
+                            required: false
