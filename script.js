@@ -6,7 +6,7 @@ let currentContext = { type: null, faculty: null, department: null };
 
 async function loadDataAndInit() {
   console.log('[loadDataAndInit] Fetching static/data.json...');
-  const response = await fetch('static/data.json');
+  const response = await fetch('static/data.json?v=' + Date.now());
   data = await response.json();
   console.log('[loadDataAndInit] Data loaded:', data);
   renderMainButtons();
