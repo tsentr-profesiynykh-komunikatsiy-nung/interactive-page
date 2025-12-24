@@ -2,7 +2,12 @@ backend:
   name: github
   repo: tsentr-profesiynykh-komunikatsiy-nung/interactive-page
   branch: main
-  auth_type: implicit
+  # Use PKCE (recommended). GitHub deprecated the implicit flow; switch to PKCE.
+  auth_type: pkce
+  # Create a GitHub OAuth App (Settings -> Developer settings -> OAuth Apps) and
+  # paste its Client ID here. Replace the placeholder with your real client id.
+  # Set the app's Authorization callback URL to: https://<your-domain>/admin/
+  app_id: 'Ov23liMJELDiJWqP0r13'
 
 publish_mode: simple
 
