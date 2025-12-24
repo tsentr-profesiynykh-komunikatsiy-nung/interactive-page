@@ -3,10 +3,10 @@ backend:
   repo: tsentr-profesiynykh-komunikatsiy-nung/interactive-page
   branch: main
   auth_type: implicit
-  side_id: 89ce5d23-0f6c-4962-9998-6c7d16962a31
+  site_id: 89ce5d23-0f6c-4962-9998-6c7d16962a31
 
 publish_mode: simple
-side_id: 89ce5d23-0f6c-4962-9998-6c7d16962a31
+site_id: 89ce5d23-0f6c-4962-9998-6c7d16962a31
 
 media_folder: "static/uploads"
 public_folder: "/static/uploads"
